@@ -1,0 +1,54 @@
+一、读取文件方法：
+1、输入输出重定向：
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+	//上述语句将使scanf从文件input.txt中读入，printf写入output.txt
+2、禁止使用重定向：
+	FILE *fin,*fout;
+	fin = fopen("data.in","rb");
+	fout = fopen("data.out","wb");
+
+	while(fscanf(fin,"%d",&x)==1){}
+
+	fprintf(fout,"" ,);
+	fclose(fin);
+	fclose(fout);
+3、visual studio中
+	FILE *fin,*fout;
+	fopen_s(&fin,"data.in","rb");
+	fopen_s(fout,"data.out","wb");
+
+	while(fscanf_s(fin,"%d",&x)==1){}
+
+	fprintf_s(fout,"" ,);
+	fclose(fin);
+	fclose(fout);
+二、测试程序运行时间：
+	#include <time.h>
+	printf("Time used = %.2f\n",(double)clock() / CLOCKS_PER_SEC);
+	然后在命令行中 ： echo 参数 | 程序名
+三、四舍五入：
+	floor(double arg)函数返回小于等于arg的最小整数
+	
+	如：double m,求m的四舍五入的整数
+		int x=floor(m+0.5)
+四、long long 类型整数：
+	范围是-pow(2,63)~ pow(2,63)-1 ,阶乘从21！开始溢出，输出时要用“%lld”
+五、C中结构体定义：
+	typedef struct{ } 名称;
+	也可以 struct 名称 {};但下面的程序用到时需要写、struct 名称 ·；
+    C++中结构体定义：
+	struct 名称 {};结构体中可以带函数
+六、比较字符串：
+	char str[]="asdf";
+	char str1[]="asdf";
+	
+	if(strcmp(str,str1)==0)
+		printf("%s\n%s",str,str1);
+七、//C++不允许对数组的大小作动态的定义，即数组的大小不能是变量，必须是常量
+    //但C中允许
+	int length = 11;
+	int page[length];//在C++中会报错，C则不会
+八、c语言中的字符串：
+	const char *s[]={"lin","yi","er","san","si","wu","liu","qi","ba","jiu"}; 
+	printf("%s\n",s[1]);
