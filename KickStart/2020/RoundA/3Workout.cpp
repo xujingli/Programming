@@ -1,35 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int minimumDifficultyP(priority_queue<int> &pq, int K) {
-  if (pq.size() == 0) return 1;
-  for (int i = 0; i < K; i++) {
-    int maxD = pq.top();
-    pq.pop();
-    if (maxD == 1) return 1;
-    pq.push(maxD / 2);
-    pq.push(maxD - maxD / 2);
-  }
-
-  return pq.top();
-}
+int minimumDifficultyP(vector<int> &M, int K) {}
 
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
   int T;
-  cin >> T;
+  cin >> T;  // 100
   for (int i = 1; i <= T; i++) {
     int N, K;
     cin >> N >> K;  // N 300  K 1e^5
     vector<int> M(N, 0);
-    priority_queue<int> pq;
     for (int j = 0; j < N; j++) {
-      cin >> M[j];
-      if (j > 0) pq.push(M[j] - M[j - 1]);
+      cin >> M[j];  // 大小为1e9
     }
-    cout << "Case #" << i << ": " << minimumDifficultyP(pq, K) << endl;
+    cout << "Case #" << i << ": " << minimumDifficultyP(M, K) << endl;
   }
 
   return 0;
