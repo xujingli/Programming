@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
+// f**k
 
 int main() {
   ios::sync_with_stdio(false);
