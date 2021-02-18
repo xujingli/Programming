@@ -9,7 +9,7 @@ class Promise {
     this.value = undefined;
     this.reason = undefined;
 
-    this.onFulfilledCallbacks = [];
+    this.onResolvedCallbacks = [];
     this.onRejectedCallbacks = [];
 
     let resolve = (value) => {
@@ -17,7 +17,7 @@ class Promise {
         this.status = FULFILLED;
         this.value = value;
 
-        this.onFulfilledCallbacks.forEach(fn => fn());
+        this.onResolvedCallbacks.forEach(fn => fn());
       }
     }
 
@@ -43,7 +43,7 @@ class Promise {
       onRejected(this.reason);
     } else if (this.status == PENDING) {
       // 先将onFulfilled 以及 onRejected函数（用户写的 then的两个参数）存起来 等待状态确定后，再依次调用callbacks
-      this.onFulfilledCallbacks.push(() => onFulfilled(this.value));
+      this.onResolvedCallbacks.push(() => onFulfilled(this.value));
       this.onRejectedCallbacks.push(() => onRejected(this.reason));
     }
   }

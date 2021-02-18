@@ -16,7 +16,7 @@ const resolvePromise = (promise2, x, resolve, reject) => {
       let then = x.then;
       if (typeof then === 'function') {
         then.call(x, y => {
-          
+
         })
       }
 
@@ -34,7 +34,7 @@ class Promise {
     this.value = undefined;
     this.reason = undefined;
 
-    this.onFulfilledCallbacks = [];
+    this.onResolvedCallbacks = [];
     this.onRejectedCallbacks = [];
 
     let resolve = (value) => {
@@ -42,7 +42,7 @@ class Promise {
         this.status = FULFILLED;
         this.value = value;
 
-        this.onFulfilledCallbacks.forEach(fn => fn());
+        this.onResolvedCallbacks.forEach(fn => fn());
       }
     }
 
@@ -95,7 +95,7 @@ class Promise {
           }
         }, 0);
       } else if (this.status === PENDING) {
-        this.onFulfilledCallbacks.push(() => {
+        this.onResolvedCallbacks.push(() => {
           // 与上面的一样一样
           setTimeout(() => {
             try {
