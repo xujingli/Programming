@@ -1,28 +1,24 @@
-Promise.all = function (values) {
-  if (!Array.isArray(values)) {
-    const type = typeof values;
-    return TypeError(`TypeError`);
-  }
-
+// promise.all 的特点：
+// 入参是个由Promise实例组成的数组
+// 返回值是个promise，因为可以使用.then
+// 如果全部成功，状态变为resolved, 并且返回值组成一个数组传给回调
+// 但凡有一个失败，状态变为rejected, 并将error返回给回调
+function diPromiseAll(promises) {
   return new Promise((resolve, reject) => {
-    let resultArr = [];
-    let orderIndex = 0;
-    const processResultByKey = (value, index) => {
-      resultArr[index] = value;
-      if (++orderIndex === values.length) {
-        resolve(resultArr);
-      }
+    // 参数判断
+    if (!Array.isArray(promises)) {
+      throw new TypeError("promises must be an array")
     }
-
-    for (let i = 0; i < values.length; i++) {
-      let value = values[i];
-      if (value && typeof value.then === "function") {
-        value.then((value) => {
-          processResultByKey(value, i);
-        }, reject);
-      } else {
-        processResultByKey(value, i);
-      }
-    }
-  });
+    let result = [] // 存放结果
+    let count = 0 // 记录有几个resolved
+    promises.forEach((promise, index) => {
+      promise.then((res) => {
+        result[index] = res
+        count++
+        count === promises.length && resolve(result) // 判断是否已经完成
+      }, (err) => {
+        reject(err)
+      })
+    })
+  })
 }
