@@ -4,10 +4,13 @@ Function.prototype.myCall = function (context) {
   }
   context = context || window;
 
+  // 此处的this是要改变this指向的函数本身
+  // 将这个函数作为context的一个属性，可以改变这个函数的this指向
+  context.fn = this; 
+
   const args = [...arguments].slice(1);
-  const func = this;
-  const result = func(...args); // 用这些参数来执行这个函数
-  delete func;
+  const result = context.fn(...args); // 用这些参数来执行这个函数
+  delete context.fn;
   return result;
 }
 
@@ -16,16 +19,15 @@ Function.prototype.myApply = function (context) {
     throw new TypeError('Error');
   }
   context = context || window; // 如果参数为空则默认this为window
-
-  const func = this;
+  context.fn = this;
   // 处理参数和 call 有区别，arguments[1]准确来说是个数组
   let result;
   if (arguments[1]) {
-    result = func(...arguments[1]);
+    result = context.fn(...arguments[1]);
   } else {
-    result = func();
+    result = context.fn();
   }
-  delete func;
+  delete context.fn;
   return result;
 }
 
