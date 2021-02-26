@@ -26,8 +26,8 @@ int solution(vector< vector<int> > &A) {
         }
     }
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
+    for (int i = 0; i < n; ++i) { // 向下
+        for (int j = 0; j < m; ++j) { // 向右
             f[i][j][0] += count2[i][j];
             g[i][j][0] += count5[i][j];
             f[i][j][2] += count2[i][j];
@@ -42,8 +42,8 @@ int solution(vector< vector<int> > &A) {
             }
         }
     }
-    for (int i = n - 1; i >= 0; --i) {
-        for (int j = m - 1; j >= 0; --j) {
+    for (int i = n - 1; i >= 0; --i) { // 向上
+        for (int j = m - 1; j >= 0; --j) { // 向左
             f[i][j][1] += count2[i][j];
             g[i][j][1] += count5[i][j];
             f[i][j][3] += count2[i][j];
