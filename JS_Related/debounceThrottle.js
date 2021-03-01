@@ -3,7 +3,7 @@ function myDebounce(fn, interval = 500) {
   return function () {
     clearTimeout(timeout);
     setTimeout(() => {
-      fn.apply(this, arguments);
+      fn.apply(this, arguments); // 很重要
     }, interval);
   }
 }
@@ -16,9 +16,9 @@ function throttle(fn, interval = 500) {
   let canRun = true; // 第一次就要开始计时
   return function () {
     if (!canRun) return;
-    run = false;
+    canRun = false;
     setTimeout(() => {
-      fn.apply(this, arguments);
+      fn.apply(this, arguments); // 很重要
       canRun = true;
     }, interval)
   }
