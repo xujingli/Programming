@@ -12,6 +12,9 @@ function diPromiseAll(promises) {
     let result = [] // 存放结果
     let count = 0 // 记录有几个resolved
     promises.forEach((promise, index) => {
+      // 如果promise不是Promise对象，则要调用Promise.resolve转成Promise对象
+      if (typeof promise !== 'function') promise = Promise.resolve(promise);
+
       promise.then((res) => {
         result[index] = res
         count++
