@@ -14,48 +14,69 @@
  *    15   7
  * 返回它的最小深度 2
  */
+
+function TreeNode(val, left, right) {
+  this.val = (val === undefined ? 0 : val)
+  this.left = (left === undefined ? null : left)
+  this.right = (right === undefined ? null : right)
+}
+
 function getTreeDepth(arr) {
-  // write code here
-
   // 将arr转换为一棵树
-  // arr应该就是一棵树吧？
-
   if (arr.length == 0) return 0;
-  let queue = [];
-  queue.push(0);
-  let i = 0;
-  while (queue.length !== 0) {
-    i++;
-    let k = queue.length;
-    for (let j = 0; j < k; j++) {
+  if (arr.length <= 2) return 1;
+  let root = transform(arr); // 将arr转换为一棵树
+  return helper(root);
+
+  function transform(arr) { // 接收一个数组作为参数，返回一棵树
+    // 层次遍历的方式
+    let root = new TreeNode(arr[0]); // 根节点
+    let queue = [];
+    queue.push(root);
+    let idx = 1;
+    while (queue.length != 0) {
       let cur = queue.shift();
-      let curLeft = cur * 2;
-      let curRight = cur * 2 + 1;
-      if (curLeft < arr.length && arr[curLeft] !== null) queue.push(curLeft);
-      if (curRight < arr.length && arr[curRight] !== null) queue.push(curRight);
-      if ((curLeft >= arr.length || curRight >= arr.length) || (arr[curLeft] === null && arr[curRight] === null)) return i;
+      let left = arr[idx];
+      let right = arr[idx + 1];
+      idx += 2;
+      if (left !== null) {
+        cur.left = new TreeNode(left);
+        queue.push(cur.left);
+      }
+      if (right !== null) {
+        cur.right = new TreeNode(right);
+        queue.push(cur.right);
+      }
+      if (idx >= arr.length) break;
     }
+    return root;
   }
 
-  //   return helper(arr);
-
-  //   function helper(root) {
-  //   	if(root === null) return 0;
-  //     let queue = [];
-  //     queue.push(root);
-  //     let i = 0;
-  //     while(queue.length !== 0) {
-  //       i++;
-  //       let k = queue.length;
-  //       for(let j=0;j<k;j++) {
-  //       	let cur = queue.shift();
-  //         if(cur.left) queue.push(cur.left);
-  //         if(cur.right) queue.push(cur.right);
-  //         if(cur.left === null && cur.right === null) return i;
-  //       }
-  //     }
-  //   }
+  function helper(root) {
+    if (root === null) return 0;
+    let queue = [];
+    queue.push(root);
+    let i = 0;
+    while (queue.length !== 0) {
+      i++;
+      let k = queue.length;
+      for (let j = 0; j < k; j++) {
+        let cur = queue.shift();
+        if (cur.left) queue.push(cur.left);
+        if (cur.right) queue.push(cur.right);
+        if (cur.left === null && cur.right === null) return i;
+      }
+    }
+  }
 }
+
+// let arr = [];
+// // arr = [1];
+// // arr = [2,3,null];
+// arr = [2,3,4,5,null,null,null];
+// // arr = [2, null, 3, null, 4, null, 5, null, 6];
+
+// console.log(getTreeDepth(arr));
 
 /**
  * 判断括号匹配
