@@ -26,7 +26,6 @@
 
 function flatten(input) {
   // write code here
-
   let res = {};
   helper(input);
   return res;
@@ -51,9 +50,9 @@ function flatten(input) {
           continue;
         else {
           if (key) {
-            res[key + '.' + tempKey] = flatten(tempValue, tempKey);
+            res[key + '.' + tempKey] = helper(tempValue, tempKey);
           } else {
-            res[tempKey] = flatten(tempValue, tempKey);
+            res[tempKey] = helper(tempValue, tempKey);
           }
         }
       }
@@ -71,4 +70,18 @@ function flatten(input) {
   //     res.push(ele);
   // }
   // return res;
+}
+
+const input = {
+  a: 1,
+  b: [1, 2, {
+      c: true
+    },
+    [3]
+  ],
+  d: {
+    e: 2,
+    f: 3
+  },
+  g: null,
 }
