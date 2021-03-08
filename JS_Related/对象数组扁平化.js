@@ -85,3 +85,52 @@ const input = {
   },
   g: null,
 }
+
+
+
+function flatten1(input) {
+  // write code here
+  let res = {};
+  helper(input);
+  return res;
+
+  function helper(obj, initialKey = "") {
+    if (obj instanceof Object) {
+      for (let key in obj) {
+        let tempValue = obj[key];
+        if (tempValue instanceof Array) {
+          helper(tempValue, key); // 如果是array下一层自己加上括号
+        } else if (tempValue instanceof Object) {
+          // 核心的疑惑就在这里，当前是对象，那么 '.' 在哪里加呢？？？？
+          helper(tempValue, key);
+        } else if (tempValue === null || tempValue === undefined) {
+          continue;
+        } else {
+          if (initialKey) {
+            res[initialKey + "." + key] = tempValue;
+          } else {
+            res[key] = tempValue;
+          }
+        }
+      }
+    } else if (obj instanceof Array) {
+      obj.forEach((ele, idx) => {
+        if (ele instanceof Object) { // 数组中的元素是对象，则 点号下一层自己加
+          helper(ele, initialKey + '[' + idx + ']'); // 本层加上括号，其余下一次加
+        } else if (ele instanceof Array) { // 如果数组中的元素还是数组，则括号下一层自己加上
+          helper(ele, initialKey + '[' + idx + ']'); // 本层加上括号，其余的下一层加
+        } else if (ele === null || ele === undefined) {
+          // continue;
+        } else { // 如果数组元素就是普通的值，则加上括号
+          let tempKey = initialKey + "[" + idx + "]";
+          res[tempKey] = ele; // TODO
+        }
+      })
+    } else {
+      return obj;
+    }
+  }
+}
+
+
+console.log(flatten(input));
